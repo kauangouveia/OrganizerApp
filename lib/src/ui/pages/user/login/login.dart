@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:organizer_app/src/ui/components/button_widget.dart';
 import 'package:organizer_app/src/ui/components/text_input_widget.dart';
@@ -49,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                   margin: const EdgeInsets.only(bottom: 25),
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/create-user'),
+                  onTap: () => Navigator.pushNamed(context, '/create_user'),
                   child: const TextWidget(
                     text: 'Cadastrar-se',
                     alignment: Alignment.centerLeft,

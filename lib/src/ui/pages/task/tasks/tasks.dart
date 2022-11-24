@@ -34,6 +34,8 @@ class _TasksPageState extends State<TasksPage> {
     handleTaskList();
   }
 
+  void closeModal() => Navigator.pop(context);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +70,7 @@ class _TasksPageState extends State<TasksPage> {
                   itemBuilder: ((context, index) {
                     final TaskModel item = taskController.tasks![index];
                     return expandableContainer(
-                      handleDeleteTask: () => handleDeleteTask(item.id!),
+                      id: item.id!,
                       handleEditTask: handleDeleteTask,
                       task: item.task!,
                       circleColor: item.priority == 'alta'
@@ -120,7 +122,7 @@ class _TasksPageState extends State<TasksPage> {
   Widget expandableContainer({
     required String task,
     required Color circleColor,
-    required Function() handleDeleteTask,
+    required int id,
     required Function handleEditTask,
   }) {
     return Container(
@@ -158,7 +160,7 @@ class _TasksPageState extends State<TasksPage> {
             child: Column(
               children: [
                 TextWidget(
-                  text: task,
+                  text: task.length > 30 ? task : '',
                   alignment: Alignment.center,
                   textColor: Colors.black,
                   fontSize: GlobalStyles.getFontSize(context, 0.035),
@@ -166,8 +168,7 @@ class _TasksPageState extends State<TasksPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    taskOptions('excluir', handleDeleteTask),
-                    taskOptions('editar', handleEditTask),
+                    taskOptions('excluir', showAlertDialog, id),
                   ],
                 ),
               ],
@@ -178,9 +179,14 @@ class _TasksPageState extends State<TasksPage> {
     );
   }
 
-  Widget taskOptions(String text, Function onTap) => GestureDetector(
-    onTap: () => onTap(),
-    child: Padding(
+  Widget taskOptions(
+    String text,
+    Function onTap,
+    int taskId,
+  ) =>
+      GestureDetector(
+        onTap: () => onTap(taskId),
+        child: Padding(
           padding: const EdgeInsets.only(right: 10, top: 10),
           child: TextWidget(
             text: text,
@@ -190,5 +196,32 @@ class _TasksPageState extends State<TasksPage> {
             decoration: TextDecoration.underline,
           ),
         ),
-  );
+      );
+
+  showAlertDialog(int taskId) {
+    Widget confirmButton = ElevatedButton(
+      child: const Text("Excluir"),
+      onPressed: () {
+        closeModal();
+        handleDeleteTask(taskId);
+      },
+    );
+    Widget cancelButton = ElevatedButton(
+      child: const Text("Cancelar"),
+      onPressed: () {
+        closeModal();
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: const Text('Excluir tarefa'),
+      content: const Text("Deseja excluir essa tarefa?"),
+      actions: [confirmButton, cancelButton],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }

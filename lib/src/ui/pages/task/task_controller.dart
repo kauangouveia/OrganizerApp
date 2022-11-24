@@ -46,6 +46,7 @@ abstract class _TaskControllerBase with Store {
 
   @action
   Future<List> listTask() async {
+    tasks = [];
     try {
       final res = await taskRepository.listTasks();
 
@@ -55,11 +56,8 @@ abstract class _TaskControllerBase with Store {
         taskModel = TaskModel.fromJson(item);
 
         tasks = List.from(tasks!..add(taskModel!));
-      print(tasks);
+
       }
-
-      print(tasks);
-
       return tasks!;
     } catch (e) {
       return [];
