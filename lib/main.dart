@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:organizer_app/src/ui/global/colors.dart';
 import 'package:organizer_app/src/ui/global/styles.dart';
-import 'package:organizer_app/src/ui/pages/create_task/create_task.dart';
-import 'package:organizer_app/src/ui/pages/tasks/tasks.dart';
+import 'package:organizer_app/src/ui/pages/task/create_task/create_task.dart';
+import 'package:organizer_app/src/ui/pages/task/tasks/tasks.dart';
 import 'package:organizer_app/src/ui/pages/user/create_user/create_user.dart';
 import 'package:organizer_app/src/ui/pages/user/login/login.dart';
 import 'package:page_transition/page_transition.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      home: const TasksPage(),
       onGenerateRoute: (settings) {
         // final args = settings.arguments;
         switch (settings.name) {
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
               type: PageTransitionType.fade,
             );
           default:
-            const LoginPage();
+            const TasksPage();
         }
       },
     );

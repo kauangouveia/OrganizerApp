@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 import 'package:organizer_app/src/models/user/user_model.dart';
 import 'package:organizer_app/src/repositories/index.dart';
+import 'package:organizer_app/src/services/storage.dart';
 
 part 'user_controller.g.dart';
 
@@ -50,9 +51,13 @@ abstract class _UserControllerBase with Store {
     createUserModel();
 
     try {
-      final bool res = await userRepository.doUserLogin(userModel!);
+      final res = await userRepository.doUserLogin(userModel!);
 
-      return res;
+      if(res.statusCode == 200) {
+        Storage.setString('access-token', res.data['token']);
+      }
+
+      return res.statusCode == 200;
     } catch (e) {
       return false;
     }

@@ -1,9 +1,11 @@
 import 'package:expandable_widgets/expandable_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:organizer_app/src/models/task/task_model.dart';
 import 'package:organizer_app/src/ui/components/text_widget.dart';
 import 'package:organizer_app/src/ui/global/index.dart';
-import 'package:organizer_app/src/ui/pages/tasks/components/circle_widget.dart';
-import 'package:organizer_app/src/ui/pages/tasks/components/task_instruction.dart';
+import 'package:organizer_app/src/ui/pages/task/task_controller.dart';
+import 'package:organizer_app/src/ui/pages/task/tasks/components/circle_widget.dart';
+import 'package:organizer_app/src/ui/pages/task/tasks/components/task_instruction.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({Key? key}) : super(key: key);
@@ -13,35 +15,58 @@ class TasksPage extends StatefulWidget {
 }
 
 class _TasksPageState extends State<TasksPage> {
+
+  final TaskController taskController = TaskController();
+
+  @override
+  void initState() {
+    super.initState();
+    handleTaskList();
+  }
+
+  void handleTaskList() async {
+    await taskController.listTask();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, '/create_task'),
+        child: const Icon(
+          Icons.add,
+          color: GlobalColors.kBackgroundColor,
+        ),
+        backgroundColor: GlobalColors.kTextColor,
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-            vertical: MediaQuery.of(context).padding.top + 10, horizontal: 20),
+          vertical: MediaQuery.of(context).padding.top + 10,
+          horizontal: 20,
+        ),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-            GestureDetector(
-              onTap: () => Navigator.pushNamed(context, '/login'),
-                child: TextWidget(
-                  text: 'TAREFAS',
-                  alignment: Alignment.center,
-                  fontSize: GlobalStyles.getFontSize(context, 0.09),
-                ),
+              TextWidget(
+                text: 'TAREFAS',
+                alignment: Alignment.center,
+                fontSize: GlobalStyles.getFontSize(context, 0.09),
               ),
               containerTaskInstructions(context),
-              expandableContainer(
-                task:
-                    'is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industrys standard',
-                circleColor: GlobalColors.kHightTaskColor,
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: taskController.tasks!.length,
+                itemBuilder: ((context, index) {
+                  final TaskModel item = taskController.tasks![index];
+                  return expandableContainer(
+                    task: item.task!,
+                    circleColor: GlobalColors.kHightTaskColor,
+                  );
+                }),
               ),
-              expandableContainer(
-                task:
-                    'is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industrys standard',
-                circleColor: GlobalColors.kLowTaskColor,
-              )
+
             ],
           ),
         ),
@@ -53,7 +78,7 @@ class _TasksPageState extends State<TasksPage> {
     return Container(
       height: 35,
       width: MediaQuery.of(context).size.width * .75,
-      margin: const EdgeInsets.only(top: 25, bottom: 25),
+      margin: const EdgeInsets.only(top: 25),
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: GlobalColors.kTaskCardColor,

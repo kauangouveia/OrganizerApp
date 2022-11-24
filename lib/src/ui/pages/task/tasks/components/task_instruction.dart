@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:organizer_app/src/ui/components/text_widget.dart';
 import 'package:organizer_app/src/ui/global/index.dart';
-import 'package:organizer_app/src/ui/pages/tasks/components/circle_widget.dart';
+import 'package:organizer_app/src/ui/pages/task/tasks/components/circle_widget.dart';
 
 class TaskInstruction extends StatelessWidget {
   final String text;
