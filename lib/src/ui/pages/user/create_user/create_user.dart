@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:organizer_app/src/models/user/user_model.dart';
 import 'package:organizer_app/src/ui/components/button_widget.dart';
 import 'package:organizer_app/src/ui/components/text_input_widget.dart';
 import 'package:organizer_app/src/ui/global/index.dart';
+import 'package:organizer_app/src/ui/pages/user/user_controller.dart';
 
 class CreateUserPage extends StatefulWidget {
   const CreateUserPage({Key? key}) : super(key: key);
@@ -12,20 +12,15 @@ class CreateUserPage extends StatefulWidget {
 }
 
 class _CreateUserPageState extends State<CreateUserPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController cpfController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final UserController userController = UserController();
 
-  void handleUser() {
-    UserModel user = UserModel(
-      name: nameController.text,
-      email: emailController.text,
-      cpf: cpfController.text,
-      password: passwordController.text
-    );
+  void nextPage() => Navigator.pushNamed(context, '/tasks');
 
-    print(user.toJson());
+  void closeModal() => Navigator.pop(context);
+
+  void handleUser() async {
+    final bool res = await userController.createUser();
+    showAlertDialog(res);
   }
 
   @override
@@ -41,20 +36,20 @@ class _CreateUserPageState extends State<CreateUserPage> {
                 Center(child: Image.asset(GlobalImages.cube, scale: 1.8)),
                 TextInputWidget(
                   hintText: 'Seu nome',
-                  controller: nameController,
+                  controller: userController.nameController,
                   margin: const EdgeInsets.only(top: 22, bottom: 15),
                 ),
                 TextInputWidget(
                   hintText: 'Seu e-mail',
-                  controller: emailController,
+                  controller: userController.emailController,
                 ),
                 TextInputWidget(
                   hintText: 'Seu cpf',
-                  controller: cpfController,
+                  controller: userController.cpfController,
                 ),
                 TextInputWidget(
                   hintText: 'Sua senha',
-                  controller: passwordController,
+                  controller: userController.passwordController,
                 ),
                 ButtonWidget(text: 'REGISTRAR-SE', onClick: handleUser),
               ],
@@ -62,6 +57,27 @@ class _CreateUserPageState extends State<CreateUserPage> {
           ),
         ),
       ),
+    );
+  }
+
+  showAlertDialog(bool value) {
+    Widget okButton = ElevatedButton(
+      child: const Text("Fechar"),
+      onPressed: () {
+        closeModal();
+        if(value) nextPage();
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text(value ? 'Sucesso' : 'Erro'),
+      content: Text(value ? "Usuário cadastrado com sucesso" : 'Ocorreu um erro'),
+      actions: [okButton],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
