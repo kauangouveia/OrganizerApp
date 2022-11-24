@@ -20,4 +20,17 @@ class UserRepository {
       return throw Exception(e);
     }
   }
+
+  Future<bool> doUserLogin(UserModel user) async {
+    try {
+      response = await _backend.io.post(
+        API.login,
+        data: user.toJsonLogin(),
+      );
+
+      return response!.statusCode == 200;
+    } on DioError catch (e) {
+      return throw Exception(e);
+    }
+  }
 }

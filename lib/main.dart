@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      home: const CreateUserPage(),
+      home: const LoginPage(),
       onGenerateRoute: (settings) {
         // final args = settings.arguments;
         switch (settings.name) {
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
               type: PageTransitionType.fade,
             );
           default:
-            const CreateUserPage();
+            const LoginPage();
         }
       },
     );

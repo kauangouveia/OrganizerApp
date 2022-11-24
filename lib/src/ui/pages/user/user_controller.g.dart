@@ -25,28 +25,20 @@ mixin _$UserController on _UserControllerBase, Store {
     });
   }
 
-  late final _$userCreatedAtom =
-      Atom(name: '_UserControllerBase.userCreated', context: context);
-
-  @override
-  bool get userCreated {
-    _$userCreatedAtom.reportRead();
-    return super.userCreated;
-  }
-
-  @override
-  set userCreated(bool value) {
-    _$userCreatedAtom.reportWrite(value, super.userCreated, () {
-      super.userCreated = value;
-    });
-  }
-
   late final _$createUserAsyncAction =
       AsyncAction('_UserControllerBase.createUser', context: context);
 
   @override
   Future<bool> createUser() {
     return _$createUserAsyncAction.run(() => super.createUser());
+  }
+
+  late final _$doLoginAsyncAction =
+      AsyncAction('_UserControllerBase.doLogin', context: context);
+
+  @override
+  Future<bool> doLogin() {
+    return _$doLoginAsyncAction.run(() => super.doLogin());
   }
 
   late final _$_UserControllerBaseActionController =
@@ -66,8 +58,7 @@ mixin _$UserController on _UserControllerBase, Store {
   @override
   String toString() {
     return '''
-userModel: ${userModel},
-userCreated: ${userCreated}
+userModel: ${userModel}
     ''';
   }
 }

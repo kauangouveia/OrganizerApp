@@ -14,7 +14,7 @@ class CreateUserPage extends StatefulWidget {
 class _CreateUserPageState extends State<CreateUserPage> {
   final UserController userController = UserController();
 
-  void nextPage() => Navigator.pushNamed(context, '/tasks');
+  void nextPage() => Navigator.pushNamed(context, '/login');
 
   void closeModal() => Navigator.pop(context);
 

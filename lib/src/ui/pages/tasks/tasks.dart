@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:organizer_app/src/ui/components/text_widget.dart';
 import 'package:organizer_app/src/ui/global/index.dart';
 import 'package:organizer_app/src/ui/pages/tasks/components/circle_widget.dart';
-import 'package:organizer_app/src/ui/pages/tasks/components/task_instrution.dart';
+import 'package:organizer_app/src/ui/pages/tasks/components/task_instruction.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({Key? key}) : super(key: key);
@@ -23,10 +23,13 @@ class _TasksPageState extends State<TasksPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextWidget(
-                text: 'TAREFAS',
-                alignment: Alignment.center,
-                fontSize: GlobalStyles.getFontSize(context, 0.09),
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, '/login'),
+                child: TextWidget(
+                  text: 'TAREFAS',
+                  alignment: Alignment.center,
+                  fontSize: GlobalStyles.getFontSize(context, 0.09),
+                ),
               ),
               containerTaskInstructions(context),
               expandableContainer(

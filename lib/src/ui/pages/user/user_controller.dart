@@ -18,9 +18,6 @@ abstract class _UserControllerBase with Store {
   @observable
   UserModel? userModel;
 
-  @observable
-  bool userCreated = false;
-
   @action
   UserModel createUserModel() {
     userModel = UserModel(
@@ -42,7 +39,18 @@ abstract class _UserControllerBase with Store {
         userModel!,
       );
 
-      userCreated = res;
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @action
+  Future<bool> doLogin() async {
+    createUserModel();
+
+    try {
+      final bool res = await userRepository.doUserLogin(userModel!);
 
       return res;
     } catch (e) {

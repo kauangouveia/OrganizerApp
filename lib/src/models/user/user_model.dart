@@ -21,4 +21,11 @@ class UserModel {
     data['email'] = email;
     return data;
   }
+
+  Map<String, dynamic> toJsonLogin() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['email'] = email;
+    data['password'] = password;
+    return data;
+  }
 }
