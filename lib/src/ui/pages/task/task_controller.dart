@@ -65,4 +65,15 @@ abstract class _TaskControllerBase with Store {
       return [];
     }
   }
+
+  @action
+  Future<bool> deleteTask(int id) async {
+    try {
+      final res = await taskRepository.deleteTask(id);
+
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
 }

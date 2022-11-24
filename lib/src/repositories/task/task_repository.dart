@@ -47,4 +47,22 @@ class TaskRepository {
       return throw Exception(e);
     }
   }
+
+  Future<bool> deleteTask(int id) async {
+    final String token = await Storage.getString('access-token');
+
+    try {
+      response = await _backend.io.delete(
+        API.deleteTask,
+        data: {"id": id},
+        options: Options(
+          headers: addToken(token),
+        ),
+      );
+
+      return response!.statusCode == 200;
+    } on DioError catch (e) {
+      return throw Exception(e);
+    }
+  }
 }

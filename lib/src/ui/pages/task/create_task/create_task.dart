@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:organizer_app/src/ui/components/button_widget.dart';
+import 'package:organizer_app/src/ui/components/dropdown_widget.dart';
 import 'package:organizer_app/src/ui/components/text_input_widget.dart';
 import 'package:organizer_app/src/ui/components/text_widget.dart';
 import 'package:organizer_app/src/ui/global/index.dart';
@@ -60,11 +61,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
                           controller: taskController.taskTextController,
                           margin: const EdgeInsets.only(top: 22, bottom: 15),
                         ),
-                        TextInputWidget(
-                          hintText: 'PRIORIDADE',
-                          controller: taskController.priorityController,
-                          margin: const EdgeInsets.only(bottom: 15),
-                        ),
+                        DropdownWidget(taskController: taskController),
                         ButtonWidget(
                           text: 'ADICIONAR',
                           margin: const EdgeInsets.only(top: 15),

@@ -4,4 +4,5 @@ class API {
   static const String login = '$baseURL/login';
   static const String createTask = '$baseURL/create-task';
   static const String tasks = '$baseURL/list-task';
+  static const String deleteTask = '$baseURL/delete-task';
 }

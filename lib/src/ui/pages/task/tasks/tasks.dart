@@ -1,5 +1,6 @@
 import 'package:expandable_widgets/expandable_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:organizer_app/src/models/task/task_model.dart';
 import 'package:organizer_app/src/ui/components/text_widget.dart';
 import 'package:organizer_app/src/ui/global/index.dart';
@@ -15,7 +16,6 @@ class TasksPage extends StatefulWidget {
 }
 
 class _TasksPageState extends State<TasksPage> {
-
   final TaskController taskController = TaskController();
 
   @override
@@ -26,6 +26,12 @@ class _TasksPageState extends State<TasksPage> {
 
   void handleTaskList() async {
     await taskController.listTask();
+    setState(() {});
+  }
+
+  void handleDeleteTask(int id) async {
+    await taskController.deleteTask(id);
+    handleTaskList();
   }
 
   @override
@@ -54,19 +60,26 @@ class _TasksPageState extends State<TasksPage> {
                 fontSize: GlobalStyles.getFontSize(context, 0.09),
               ),
               containerTaskInstructions(context),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: taskController.tasks!.length,
-                itemBuilder: ((context, index) {
-                  final TaskModel item = taskController.tasks![index];
-                  return expandableContainer(
-                    task: item.task!,
-                    circleColor: GlobalColors.kHightTaskColor,
-                  );
-                }),
-              ),
-
+              Observer(builder: (_) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: taskController.tasks!.length,
+                  itemBuilder: ((context, index) {
+                    final TaskModel item = taskController.tasks![index];
+                    return expandableContainer(
+                      handleDeleteTask: () => handleDeleteTask(item.id!),
+                      handleEditTask: handleDeleteTask,
+                      task: item.task!,
+                      circleColor: item.priority == 'alta'
+                          ? GlobalColors.kHightTaskColor
+                          : item.priority == 'baixa'
+                              ? GlobalColors.kLowTaskColor
+                              : GlobalColors.kMediumTaskColor,
+                    );
+                  }),
+                );
+              }),
             ],
           ),
         ),
@@ -107,6 +120,8 @@ class _TasksPageState extends State<TasksPage> {
   Widget expandableContainer({
     required String task,
     required Color circleColor,
+    required Function() handleDeleteTask,
+    required Function handleEditTask,
   }) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
@@ -151,8 +166,8 @@ class _TasksPageState extends State<TasksPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    taskOptions('excluir'),
-                    taskOptions('editar'),
+                    taskOptions('excluir', handleDeleteTask),
+                    taskOptions('editar', handleEditTask),
                   ],
                 ),
               ],
@@ -163,14 +178,17 @@ class _TasksPageState extends State<TasksPage> {
     );
   }
 
-  Widget taskOptions(String text) => Padding(
-        padding: const EdgeInsets.only(right: 10, top: 10),
-        child: TextWidget(
-          text: text,
-          alignment: Alignment.center,
-          textColor: Colors.black,
-          fontSize: GlobalStyles.getFontSize(context, 0.038),
-          decoration: TextDecoration.underline,
+  Widget taskOptions(String text, Function onTap) => GestureDetector(
+    onTap: () => onTap(),
+    child: Padding(
+          padding: const EdgeInsets.only(right: 10, top: 10),
+          child: TextWidget(
+            text: text,
+            alignment: Alignment.center,
+            textColor: Colors.black,
+            fontSize: GlobalStyles.getFontSize(context, 0.038),
+            decoration: TextDecoration.underline,
+          ),
         ),
-      );
+  );
 }
