@@ -45,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextInputWidget(
                   hintText: 'Sua senha',
                   controller: userController.passwordController,
+                  obscureText: true,
                   margin: const EdgeInsets.only(bottom: 25),
                 ),
                 GestureDetector(

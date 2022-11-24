@@ -49,6 +49,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
                 ),
                 TextInputWidget(
                   hintText: 'Sua senha',
+                  obscureText: true,
                   controller: userController.passwordController,
                 ),
                 ButtonWidget(text: 'REGISTRAR-SE', onClick: handleUser),
@@ -65,12 +66,13 @@ class _CreateUserPageState extends State<CreateUserPage> {
       child: const Text("Fechar"),
       onPressed: () {
         closeModal();
-        if(value) nextPage();
+        if (value) nextPage();
       },
     );
     AlertDialog alert = AlertDialog(
       title: Text(value ? 'Sucesso' : 'Erro'),
-      content: Text(value ? "Usuário cadastrado com sucesso" : 'Ocorreu um erro'),
+      content:
+          Text(value ? "Usuário cadastrado com sucesso" : 'Ocorreu um erro'),
       actions: [okButton],
     );
     showDialog(

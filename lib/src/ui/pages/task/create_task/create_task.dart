@@ -32,46 +32,51 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    child: TextWidget(
-                      text: 'ADICIONAR NOVA\nTAREFA',
-                      alignment: Alignment.center,
-                      textAlign: TextAlign.center,
-                      fontSize: GlobalStyles.getFontSize(context, 0.06),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: SizedBox(
-                    child: Column(
-                      children: [
-                        TextInputWidget(
-                          hintText: 'SUA TAREFA',
-                          height: 100,
-                          maxLines: 255,
-                          minLines: 1,
-                          verticalPadding: 15,
-                          controller: taskController.taskTextController,
-                          margin: const EdgeInsets.only(top: 22, bottom: 15),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        child: TextWidget(
+                          text: 'ADICIONAR NOVA\nTAREFA',
+                          alignment: Alignment.center,
+                          textAlign: TextAlign.center,
+                          fontSize: GlobalStyles.getFontSize(context, 0.06),
                         ),
-                        DropdownWidget(taskController: taskController),
-                        ButtonWidget(
-                          text: 'ADICIONAR',
-                          margin: const EdgeInsets.only(top: 15),
-                          onClick: handleTask,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      flex: 2,
+                      child: SizedBox(
+                        child: Column(
+                          children: [
+                            TextInputWidget(
+                              hintText: 'SUA TAREFA',
+                              height: 100,
+                              maxLines: 255,
+                              minLines: 1,
+                              verticalPadding: 15,
+                              controller: taskController.taskTextController,
+                              margin: const EdgeInsets.only(top: 22, bottom: 15),
+                            ),
+                            DropdownWidget(taskController: taskController),
+                            ButtonWidget(
+                              text: 'ADICIONAR',
+                              margin: const EdgeInsets.only(top: 15),
+                              onClick: handleTask,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

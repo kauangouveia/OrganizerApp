@@ -8,6 +8,7 @@ class TextInputWidget extends StatelessWidget {
   final EdgeInsets? margin;
   final int? maxLines;
   final int? minLines;
+  final bool? obscureText;
   final double? verticalPadding;
   final TextEditingController? controller;
 
@@ -16,10 +17,10 @@ class TextInputWidget extends StatelessWidget {
     required this.hintText,
     this.height = 75,
     this.margin,
-    this.maxLines,
+    this.maxLines = 1,
     this.minLines,
     this.verticalPadding,
-    this.controller,
+    this.controller, this.obscureText = false,
   }) : super(key: key);
 
   @override
@@ -40,6 +41,7 @@ class TextInputWidget extends StatelessWidget {
         controller: controller,
         maxLines: maxLines,
         minLines: minLines,
+        obscureText: obscureText!,
         style: TextStyle(
           fontSize: GlobalStyles.getFontSize(context, 0.043),
           height: 2.2,
